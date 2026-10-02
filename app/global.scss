@@ -1,48 +1,160 @@
+// ==========================================
+// ЖЕЛЕЗНОЕ ОБЪЯВЛЕНИЕ ПЕРЕМЕННЫХ ДЛЯ ВСЕГО ФАЙЛА
+// ==========================================
+$border-thick: 4px solid #000000;
+// ==========================================
+// 1. НАШИ МИКСИНЫ ДЛЯ АДАПТИВА
+// ==========================================
+@mixin tablet {
+    @media (min-width: 768px) {
+        @content;
+    }
+}
+
+@mixin desktop {
+    @media (min-width: 1024px) {
+        @content;
+    }
+}
+
 *,
 *::before,
 *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    cursor: default;
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    min-width: 0 !important;
+}
+
+// ==========================================
+// ЖЕЛЕЗНЫЙ АДАПТИВ ДЛЯ МИКРО-ЭКРАНОВ (МЕНЬШЕ 400px)
+// ==========================================
+@media (max-width: 400px) {
+    // 1. Сжимаем шапку, чтобы логотип и бургер не разлетались
+    .navbar {
+        padding: 10px 12px !important;
+        __logo {
+            font-size: 1.1rem !important; // Немного уменьшаем шрифт логотипа
+        }
+    }
+    // 2. Усмиряем главный экран Hero
+    .hero {
+        padding: 20px 12px !important;
+        gap: 20px !important;
+        __title {
+            font-size: 2.2rem !important; // Уменьшаем гигантский заголовок, чтобы он не рвал строки
+        }
+        __text {
+            font-size: 1rem !important;
+            margin-bottom: 20px !important;
+        }
+    }
+    // 3. Чиним карточку проекта (то, что взрывалось на скриншоте)
+    .project-card {
+        padding: 10px !important; // Срезаем внутренние отступы до минимума
+        __image {
+            height: 150px !important; // Делаем синюю/розовую плашку ниже, чтобы она сжалась по пропорциям
+            font-size: 1.4rem !important;
+        }
+        h3 {
+            font-size: 1.4rem !important;
+        }
+        p {
+            font-size: 0.95rem !important;
+        }
+        // Прячем вылеты у плашек тегов
+        .tags {
+            gap: 6px !important;
+            span {
+                padding: 2px 6px !important;
+                font-size: 0.8rem !important;
+            }
+        }
+    }
+    // 4. Усмиряем блок формы обратной связи (cta-block)
+    .cta-block {
+        padding: 30px 12px !important; // Снижаем боковые паддинги со статических 40px до 12px
+        h2 {
+            font-size: 1.3rem !important; // Чтобы английский длинный текст не вылезал
+        }
+    }
+    // Настройка полей ввода в форме
+    .form-input {
+        padding: 10px !important;
+        font-size: 1rem !important;
+    }
+    // Уменьшаем паддинги в карточках стека технологий
+    .cert-card {
+        padding: 20px 10px !important;
+        font-size: 1.1rem !important;
+    }
+}
+
+html,
+body {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    scroll-behavior: smooth;
 }
 
 body {
     font-family: "Share Tech Mono", "Courier New", Courier, monospace;
-    background-color: #ffffff;
-    color: #000000;
-    padding: 10px;
-}
-
-@media (min-width: 768px) {
-    body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    padding: 8px !important;
+    overflow-x: hidden !important; // Жесткий стоп-кран от вылетов верстки вбок
+    @include tablet {
         padding: 20px;
     }
 }
 
+.main-layout {
+    display: block !important; // На мобилках превращаем гриды в обычный блочный поток, чтобы исключить конфликты сеток
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    @media (min-width: 1024px) {
+        display: grid !important; // Возвращаем грид-сетку только на больших экранах (ПК)
+        grid-template-columns: 2fr 1fr;
+    }
+    &__left,
+    &__right {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+}
+
+// ==========================================
+// 3. КОМПОНЕНТ NAVBAR
+// ==========================================
 .navbar {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     background-color: #ffffff;
-    border: 4px solid #000000;
+    border: $border-thick;
     padding: 15px 20px;
     position: relative;
 }
 
 .navbar__burger {
     background: #fca7cd;
-    border: 4px solid #000000;
+    border: $border-thick;
     font-size: 1.5rem;
     padding: 5px 10px;
     cursor: pointer;
     box-shadow: 3px 3px 0px #000000;
     z-index: 100;
-}
-
-@media (min-width: 768px) {
-    .navbar__burger {
+    @include tablet {
         display: none;
     }
 }
@@ -60,21 +172,17 @@ body {
     left: -4px;
     width: calc(100% + 8px);
     background-color: #ffffff;
-    border: 4px solid #000000;
+    border: $border-thick;
     padding: 30px 20px;
     flex-direction: column;
     align-items: center;
     gap: 25px;
     z-index: 90;
     box-shadow: 6px 6px 0px #000000;
-}
-
-.navbar__collapse.open {
-    display: flex;
-}
-
-@media (min-width: 768px) {
-    .navbar__collapse {
+    &.open {
+        display: flex;
+    }
+    @include tablet {
         display: flex;
         position: static;
         width: auto;
@@ -94,45 +202,39 @@ body {
     list-style: none;
     width: 100%;
     text-align: center;
-}
-
-@media (min-width: 768px) {
-    .navbar__menu {
+    @include tablet {
         flex-direction: row;
         width: auto;
         flex: 1;
         justify-content: center;
         gap: 30px;
     }
-}
-
-.navbar__menu a {
-    text-decoration: none;
-    color: #000000;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 1.3rem;
-    position: relative;
-    padding-bottom: 2px;
-    transition: color 0.2s;
-}
-
-.navbar__menu a::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background-color: #000000;
-    transform: scaleX(0);
-    transform-origin: bottom right;
-    transition: transform 0.25s ease-out;
-}
-
-.navbar__menu a:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
+    a {
+        text-decoration: none;
+        color: #000000;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 1.3rem;
+        position: relative;
+        padding-bottom: 2px;
+        transition: color 0.2s;
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: #000000;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.25s ease-out;
+        }
+        &:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+    }
 }
 
 .navbar__actions {
@@ -141,10 +243,7 @@ body {
     align-items: center;
     gap: 20px;
     width: 100%;
-}
-
-@media (min-width: 768px) {
-    .navbar__actions {
+    @include tablet {
         flex-direction: row;
         width: auto;
         gap: 15px;
@@ -156,24 +255,20 @@ body {
     background-color: #7064e7;
     color: #ffffff;
     padding: 10px 20px;
-    border: 4px solid #000000;
+    border: $border-thick;
     text-decoration: none;
     font-weight: bold;
     box-shadow: 4px 4px 0px #000000;
     transition: 0.1s;
     width: 100%;
     text-align: center;
-}
-
-@media (min-width: 768px) {
-    .navbar__btn {
+    @include tablet {
         width: auto;
     }
-}
-
-.navbar__btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px #000000;
+    &:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px #000000;
+    }
 }
 
 .lang-switcher {
@@ -183,37 +278,35 @@ body {
     background: #ffffff;
     padding: 2px;
     box-shadow: 2px 2px 0px #000000;
+    .lang-btn {
+        background: none;
+        border: none;
+        font-family: "Share Tech Mono", monospace;
+        font-size: 0.9rem;
+        font-weight: bold;
+        padding: 4px 8px;
+        cursor: pointer;
+        &.active {
+            background-color: #e4f074;
+            border: 2px solid #000000;
+        }
+    }
 }
 
-.lang-switcher .lang-btn {
-    background: none;
-    border: none;
-    font-family: "Share Tech Mono", monospace;
-    font-size: 0.9rem;
-    font-weight: bold;
-    padding: 4px 8px;
-    cursor: pointer;
-}
-
-.lang-switcher .lang-btn.active {
-    background-color: #e4f074;
-    border: 2px solid #000000;
-}
-
+// ==========================================
+// 4. ГЛАВНЫЙ ЭКРАН (HERO)
+// ==========================================
 .hero {
     background-color: #f5f5f5;
     background-image: linear-gradient(#d0d0d0 1px, transparent 1px), linear-gradient(90deg, #d0d0d0 1px, transparent 1px);
     background-size: 25px 25px;
-    border: 4px solid #000000;
+    border: $border-thick;
     border-top: none;
     padding: 40px 20px;
     display: grid;
     grid-template-columns: 1fr;
     gap: 40px;
-}
-
-@media (min-width: 1024px) {
-    .hero {
+    @include desktop {
         grid-template-columns: 1.2fr 0.8fr;
         padding: 60px 40px;
     }
@@ -224,10 +317,7 @@ body {
     font-weight: 900;
     margin: 20px 0;
     line-height: 1.05;
-}
-
-@media (min-width: 768px) {
-    .hero__title {
+    @include tablet {
         font-size: 4.5rem;
     }
 }
@@ -261,13 +351,12 @@ body {
     color: inherit;
     width: 100%;
     height: 100%;
-}
-
-.hero__photo-link:hover .photo-card__placeholder,
-.hero__photo-link:hover .photo-card__img {
-    background-color: #e4f074;
-    transform: translate(-2px, -2px);
-    box-shadow: 4px 4px 0px #000000;
+    &:hover .photo-card__placeholder,
+    &:hover .photo-card__img {
+        background-color: #e4f074;
+        transform: translate(-2px, -2px);
+        box-shadow: 4px 4px 0px #000000;
+    }
 }
 
 .hero__visual {
@@ -280,7 +369,7 @@ body {
     justify-content: center;
     width: 40px;
     height: 40px;
-    border: 4px solid #000000;
+    border: $border-thick;
     background: #ffffff;
     text-decoration: none;
     font-size: 1.2rem;
@@ -289,7 +378,7 @@ body {
 
 .photo-card {
     background-color: #fca7cd;
-    border: 4px solid #000000;
+    border: $border-thick;
     padding: 20px;
     box-shadow: 6px 6px 0px #000000;
     position: relative;
@@ -303,15 +392,14 @@ body {
 .photo-card__img {
     width: 100%;
     height: 220px;
-    -o-object-fit: cover;
     object-fit: cover;
-    border: 4px solid #000000;
+    border: $border-thick;
     transition: 0.2s;
 }
 
 .photo-card__placeholder {
     height: 220px;
-    border: 4px solid #000000;
+    border: $border-thick;
     background: #ffffff;
     display: flex;
     align-items: center;
@@ -324,26 +412,26 @@ body {
 .code-badge {
     background-color: #7064e7;
     color: #ffffff;
-    border: 4px solid #000000;
+    border: $border-thick;
     padding: 15px;
     margin-top: 15px;
     font-family: monospace;
     font-size: 0.85rem;
 }
 
+// ==========================================
+// 5. ЛЕНТА НАВЫКОВ (SKILLS BAR)
+// ==========================================
 .skills-bar {
     display: flex;
     flex-direction: column;
     background-color: #7064e7;
     color: #ffffff;
-    border: 4px solid #000000;
+    border: $border-thick;
     border-top: none;
     font-weight: bold;
     font-size: 1.2rem;
-}
-
-@media (min-width: 768px) {
-    .skills-bar {
+    @include tablet {
         flex-direction: row;
         align-items: stretch;
     }
@@ -365,10 +453,7 @@ body {
     padding: 15px 20px;
     width: 100%;
     flex-wrap: wrap;
-}
-
-@media (min-width: 768px) {
-    .skills-bar__list {
+    @include tablet {
         padding: 0 20px;
         flex-wrap: nowrap;
         justify-content: space-between;
@@ -380,57 +465,53 @@ body {
     font-size: 1.3rem;
 }
 
+// ==========================================
+// 6. ГЛАВНЫЙ КАРКАС (LAYOUT)
+// ==========================================
 .main-layout {
     display: grid;
     grid-template-columns: 1fr;
-    border: 4px solid #000000;
+    border: $border-thick;
     border-top: none;
-}
-
-@media (min-width: 1024px) {
-    .main-layout {
+    @include desktop {
         grid-template-columns: 2fr 1fr;
     }
 }
 
 .main-layout__left {
     padding: 20px;
-    border-bottom: 4px solid #000000;
-}
-
-@media (min-width: 768px) {
-    .main-layout__left {
+    border-bottom: $border-thick;
+    @include tablet {
         padding: 40px;
     }
-}
-
-@media (min-width: 1024px) {
-    .main-layout__left {
+    @include desktop {
         border-bottom: none;
-        border-right: 4px solid #000000;
+        border-right: $border-thick;
     }
 }
 
 .main-layout__right {
     padding: 20px;
     background-color: #a4db44;
-}
-
-@media (min-width: 768px) {
-    .main-layout__right {
+    @include tablet {
         padding: 40px;
     }
 }
 
+// ==========================================
+// 7. СЛАЙДЕР ПРОЕКТОВ (ПОЛНОСТЬЮ РЕЗИНОВЫЙ ДЛЯ 340px)
+// ==========================================
 .projects__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
-}
-
-.projects__header h2 {
-    font-size: 1.8rem;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 10px;
+    h2 {
+        font-size: 1.8rem;
+    }
 }
 
 .slider-controls {
@@ -440,7 +521,7 @@ body {
 
 .slider-btn {
     background-color: #fca7cd;
-    border: 4px solid #000000;
+    border: $border-thick;
     width: 45px;
     height: 45px;
     font-weight: bold;
@@ -450,41 +531,52 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.slider-btn:active {
-    transform: translate(2px, 2px);
-    box-shadow: 2px 2px 0px #000000;
+    &:active {
+        transform: translate(2px, 2px);
+        box-shadow: 2px 2px 0px #000000;
+    }
 }
 
 .slider-container {
-    overflow: hidden;
-    width: 100%;
-    border: 4px solid #000000;
-    box-shadow: 6px 6px 0px #000000;
+    overflow: hidden !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border: $border-thick;
+    box-shadow: 4px 4px 0px #000000 !important;
+    box-sizing: border-box !important;
 }
 
 .slider-track {
-    display: flex;
+    display: flex !important;
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    width: 100%;
+    width: 100% !important;
 }
 
 .project-card {
-    flex: 0 0 100%;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
     background-color: #ffffff;
-    padding: 25px;
+    padding: 15px !important;
+    box-sizing: border-box !important;
+    @include tablet {
+        padding: 25px !important;
+    }
 }
 
 .project-card__image {
-    border: 4px solid #000000;
-    height: 220px;
+    border: $border-thick;
+    height: 180px !important;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
     font-size: 2rem;
     font-weight: bold;
+    box-sizing: border-box !important;
+    @include tablet {
+        height: 220px !important;
+    }
 }
 
 .project-card__image--blue {
@@ -504,23 +596,28 @@ body {
     font-size: 1.1rem;
     line-height: 1.4;
     margin-bottom: 15px;
+    word-break: break-word !important;
 }
 
 .project-card .tags {
     display: flex;
-    gap: 10px;
+    gap: 8px !important;
     margin-bottom: 20px;
-    flex-wrap: wrap;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    span {
+        border: 2px solid #000000;
+        padding: 4px 8px !important;
+        font-size: 0.85rem !important;
+        font-weight: bold;
+        background: #e4f074;
+        white-space: nowrap !important;
+    }
 }
 
-.project-card .tags span {
-    border: 2px solid #000000;
-    padding: 4px 10px;
-    font-size: 0.9rem;
-    font-weight: bold;
-    background: #e4f074;
-}
-
+// ==========================================
+// 8. КНОПКИ И ССЫЛКИ
+// ==========================================
 .view-details-btn,
 .view-full-resume,
 .view-all-certs {
@@ -548,19 +645,21 @@ body {
     border: 3px solid #000000;
     border-radius: 50%;
     cursor: pointer;
+    &.active {
+        background-color: #000000;
+    }
 }
 
-.slider-dots .dot.active {
-    background-color: #000000;
-}
-
+// ==========================================
+// 9. ОПЫТ РАБОТЫ (TIMELINE)
+// ==========================================
 .experience {
     margin-top: 60px;
 }
 
 .experience__header {
     background-color: #fca7cd;
-    border: 4px solid #000000;
+    border: $border-thick;
     display: inline-block;
     padding: 10px 25px;
     margin-bottom: 35px;
@@ -571,25 +670,23 @@ body {
     position: relative;
     padding-left: 35px;
     margin-bottom: 30px;
-}
-
-.timeline::before {
-    content: "";
-    position: absolute;
-    left: 6px;
-    top: 8px;
-    bottom: 8px;
-    width: 4px;
-    background-color: #000000;
+    &::before {
+        content: "";
+        position: absolute;
+        left: 6px;
+        top: 8px;
+        bottom: 8px;
+        width: 4px;
+        background-color: #000000;
+    }
 }
 
 .timeline-item {
     position: relative;
     margin-bottom: 45px;
-}
-
-.timeline-item:last-child {
-    margin-bottom: 0;
+    &:last-child {
+        margin-bottom: 0;
+    }
 }
 
 .timeline-dot {
@@ -599,7 +696,7 @@ body {
     width: 16px;
     height: 16px;
     background-color: #ffffff;
-    border: 4px solid #000000;
+    border: $border-thick;
     border-radius: 50%;
 }
 
@@ -608,19 +705,15 @@ body {
     flex-direction: column;
     gap: 8px;
     margin-bottom: 10px;
-}
-
-@media (min-width: 768px) {
-    .timeline-meta {
+    @include tablet {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
     }
-}
-
-.timeline-meta h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
+    h3 {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
 }
 
 .timeline-date {
@@ -632,6 +725,9 @@ body {
     align-self: flex-start;
 }
 
+// ==========================================
+// 10. СЕРТИФИКАТЫ И ФОРМА ОБРАТНОЙ СВЯЗИ
+// ==========================================
 .certifications h2 {
     font-size: 1.8rem;
     margin-bottom: 25px;
@@ -639,7 +735,7 @@ body {
 
 .cert-card {
     background-color: #ffffff;
-    border: 4px solid #000000;
+    border: $border-thick;
     padding: 30px 20px;
     margin-bottom: 20px;
     font-weight: bold;
@@ -651,17 +747,16 @@ body {
 .cta-block {
     background-color: #7064e7;
     color: #ffffff;
-    border: 4px solid #000000;
+    border: $border-thick;
     padding: 40px 20px;
     margin-top: 50px;
     box-shadow: 6px 6px 0px #000000;
     text-align: center;
-}
-
-.cta-block h2 {
-    font-size: 1.6rem;
-    margin-bottom: 25px;
-    line-height: 1.3;
+    h2 {
+        font-size: 1.6rem;
+        margin-bottom: 25px;
+        line-height: 1.3;
+    }
 }
 
 .contact-form {
@@ -683,14 +778,13 @@ body {
     padding: 12px 15px;
     font-family: "Share Tech Mono", monospace;
     font-size: 1.1rem;
-    border: 4px solid #000000;
+    border: $border-thick;
     background-color: #ffffff;
     color: #000000;
     outline: none;
-}
-
-.form-input:focus {
-    background-color: #e4f074;
+    &:focus {
+        background-color: #e4f074;
+    }
 }
 
 .error-message {
@@ -700,23 +794,33 @@ body {
     font-size: 0.9rem;
     margin-top: 5px;
     text-transform: uppercase;
+    &.visible {
+        display: block;
+    }
 }
 
-.error-message.visible {
-    display: block;
-}
-
+// ==========================================
+// 11. КНОПКИ ОБЩЕГО СТИЛЯ
+// ==========================================
 .btn {
     display: inline-block;
-    padding: 14px 28px;
-    border: 4px solid #000000;
+    padding: 12px 20px;
+    border: $border-thick;
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1rem;
     text-decoration: none;
     color: #000000;
-    box-shadow: 6px 6px 0px #000000;
+    box-shadow: 4px 4px 0px #000000;
     background-color: #ffffff;
     cursor: pointer;
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+    @include tablet {
+        padding: 14px 28px;
+        font-size: 1.1rem;
+        box-shadow: 6px 6px 0px #000000;
+    }
 }
 
 .btn--primary {
@@ -726,42 +830,44 @@ body {
 .btn--contact {
     background-color: #ffffff;
     width: 100%;
-}
-
-.btn--contact:active {
-    transform: translate(3px, 3px);
-    box-shadow: 3px 3px 0px #000000;
+    &:active {
+        transform: translate(3px, 3px);
+        box-shadow: 3px 3px 0px #000000;
+    }
 }
 
 .badge {
     background-color: #7064e7;
     color: #ffffff;
     padding: 6px 14px;
-    border: 4px solid #000000;
+    border: $border-thick;
     display: inline-block;
     font-weight: bold;
     box-shadow: 4px 4px 0px #000000;
 }
 
+// ==========================================
+// 12. ПОДВАЛ (FOOTER)
+// ==========================================
 .footer {
     display: flex;
     flex-direction: column;
     gap: 10px;
     align-items: center;
-    border: 4px solid #000000;
+    border: $border-thick;
     border-top: none;
     padding: 20px;
     background-color: #e4f074;
     font-weight: bold;
-}
-
-@media (min-width: 768px) {
-    .footer {
+    @include tablet {
         flex-direction: row;
         justify-content: space-between;
     }
 }
 
+// ==========================================
+// 13. АНИМАЦИИ КРАСИВОГО СКРОЛЛА
+// ==========================================
 .reveal-hidden {
     opacity: 0;
     transform: translateY(40px);
@@ -784,22 +890,22 @@ body {
 }
 
 // ==========================================
-// 12. КНОПКА НАВЕРХ (SCROLL TO TOP) - ЧИНИМ СТИЛИ
+// 14. КНОПКА НАВЕРХ (STICKY / FIXED)
 // ==========================================
 .scroll-to-top {
-    position: fixed !important; // Железно привязываем к экрану
-    bottom: 30px !important;
-    right: -100px; // Изначально прячем за край экрана
+    position: fixed !important;
+    bottom: 50px !important;
+    right: -100px;
     width: 55px !important;
     height: 55px !important;
-    background-color: #e4f074 !important; // Фирменный желтый цвет необрутализма напрямую
-    border: 4px solid #000000 !important; // Толстая черная рамка
+    background-color: #e4f074 !important;
+    border: $border-thick !important;
     font-size: 2rem !important;
     font-weight: bold !important;
     color: #000000 !important;
     cursor: pointer !important;
-    box-shadow: 4px 4px 0px #000000 !important; // Наша фирменная тень
-    z-index: 9999 !important; // Кнопка ВСЕГДА должна быть поверх всех блоков
+    box-shadow: 4px 4px 0px #000000 !important;
+    z-index: 9999 !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -808,8 +914,92 @@ body {
         transform: translate(2px, 2px) !important;
         box-shadow: 2px 2px 0px #000000 !important;
     }
-    // Когда JS меняет состояние, кнопка плавно вылетает на 30px от правого края
     &.visible {
         right: 30px !important;
     }
+}
+
+// ==========================================
+// 15. СТРАНИЦА ОШИБКИ 404 (PARALLAX EFFECT)
+// ==========================================
+.not-found-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+    background-image: linear-gradient(#d0d0d0 1px, transparent 1px), linear-gradient(90deg, #d0d0d0 1px, transparent 1px);
+    background-size: 25px 25px;
+    padding: 20px;
+}
+
+.not-found-container {
+    max-width: 500px;
+    width: 100%;
+    background-color: #ffffff;
+    border: $border-thick;
+    padding: 40px 20px;
+    box-shadow: 8px 8px 0px #000000;
+    text-align: center;
+}
+
+.not-found-title {
+    font-size: 5rem;
+    font-weight: 900;
+    line-height: 1;
+    background-color: #fca7cd;
+    display: inline-block;
+    padding: 5px 20px;
+    border: $border-thick;
+    box-shadow: 4px 4px 0px #000000;
+    margin-bottom: 25px;
+}
+
+.not-found-subtitle {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.not-found-text {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 30px;
+}
+
+.not-found-visual {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 35px;
+    overflow: hidden;
+}
+
+.not-found-image-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.not-found-img {
+    object-fit: contain;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.not-found-fallback {
+    display: none;
+    font-size: 3rem;
+    font-weight: bold;
+    &.active {
+        display: block;
+    }
+}
+
+.not-found-btn {
+    width: 100%;
+    text-align: center;
 }

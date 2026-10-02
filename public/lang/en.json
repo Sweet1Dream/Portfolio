@@ -19,15 +19,15 @@
     "project2-title": "SHOP CART",
     "project2-text": "A modern e-commerce platform with smooth checkout and global state management.",
     "exp-heading": "COMMERCIAL EXPERIENCE →",
-    "exp1-title": "MIDDLE FRONTEND DEVELOPER · FREELANCE / CONTRACTS",
+    "exp1-title": "MIDDLE FRONTEND DEVELOPER · SELF-EMPLOYED / PROJECTS",
     "exp1-date": "2025 - PRESENT",
     "exp1-text": "Architecting and developing full-scale SPA and SSR applications using Next.js and TypeScript for business clients. Implementing advanced state management architectures (Zustand, Redux Toolkit). Optimizing web performance metrics (LCP/FID) by 40% through lazy loading, image optimization, and bundle splitting.",
 
-    "exp2-title": "FRONTEND DEVELOPER · DIGITAL AGENCY (CONTRACT)",
+    "exp2-title": "FRONTEND DEVELOPER · FREELANCE / CUSTOM DEVELOPMENT",
     "exp2-date": "2024 - 2025",
     "exp2-text": "Engineered user interfaces for business automation platforms (CRM/SaaS). Integrated REST API data layers, managed complex form operations and custom UI components. Authored unit tests for critical UI workflows. Developed responsive layouts using SCSS and Tailwind CSS under strict BEM methodologies.",
 
-    "exp3-title": "JUNIOR DEVELOPER · STARTUP HUB / FREELANCE",
+    "exp3-title": "JUNIOR DEVELOPER · FREELANCE PRACTICE START",
     "exp3-date": "2023 - 2024",
     "exp3-text": "Developed cross-browser, highly responsive web interfaces from high-fidelity Figma blueprints (Mobile First). Authored modular automation scripts in clean JavaScript (ES6+). Maintained legacy systems, executed visual refactoring operations, and optimized asset delivery.",
     "exp-btn-more": "DOWNLOAD FULL RESUME →",

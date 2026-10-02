@@ -59,7 +59,7 @@ export default function Home() {
     
       <footer className="footer">
         <div className="footer__logo">{"</> VLADISLAV DEV"}</div>
-        <div className="footer__copy">© 2026 Vladislav Lepitan. All rights reserved.</div>
+        <div className="footer__copy">© 2026 Vladislav Shepilka. All rights reserved.</div>
       </footer>
 
   <ScrollToTop/>

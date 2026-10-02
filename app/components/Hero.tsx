@@ -15,8 +15,17 @@ export default function Hero({ dict }: HeroProps) {
         <h1 className="hero__title">{dict['hero-title']}</h1>
         <p className="hero__text">{dict['hero-text']}</p>
         <div className="hero__actions">
-          <a href="#" className="btn btn--primary">{dict['hero-btn-work']}</a>
-          <a href="#" className="btn btn--secondary">{dict['hero-btn-resume']}</a>
+         <a href="#projects" className="btn btn--primary">
+  {dict['hero-btn-work']}
+</a>
+
+        <a 
+  href="/vladislav-frontend.pdf" 
+  download="Vladislav_Frontend_Developer.pdf" 
+  className="btn btn--secondary"
+>
+  {dict['hero-btn-resume']}
+</a>
         </div>
       </div>
       
